@@ -51,4 +51,12 @@ const a = '31'
 const b = a.valueOf() // 结果是个 number 类型的31
 ```
 toString() 返回stringObject
+```javascript
+const a = 42
+const b = a.toSrting() // 结果是'42'
+```
 String() 返回stringObject，可以把 null 和 undefined 转换为字面量
+```javascript
+const a = null
+const b = a.String() // 结果是sring 'null'
+```
