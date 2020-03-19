@@ -8,7 +8,7 @@ const b = "this is javascript too"
 const c = 1 + '1'
 /* 结果为'11'string + number = string */
 const d = '1' + '2'
-/* 结果为'12'string +shtring = string */
+/* 结果为'12'string +string = string */
 ```
 
 ##### - 常用方法
