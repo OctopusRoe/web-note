@@ -95,8 +95,10 @@ NaN | NaN | NaN |
 undefined | undefined | undefined |
 
 逻辑或 属于短路操作，只要第一个操作数的求值结果为true，就不会对第二个操作数求值
+
 4. **乘法 (*)**
 嗯，就是数学的乘法，如果出现特殊情况，则按下表规则走
+
 特殊情况 | 结果 |
 -|-|
 超出 ECMAScript 数值 | Infinity \|\| -Infinity |
