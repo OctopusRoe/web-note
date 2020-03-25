@@ -75,4 +75,50 @@ if(a && b)              // true
 if(b && a)              // false
 ```
 3. **逻辑或 (||)**
-按人话来说，就是语文的 “或者”
+按人话来说，就是语文的 “或者”，只要有一个条件为true，结果就为true，只有条件都为false，结果才是false
+```javascript
+const a = 1
+const b = 2
+if( a == 1 || b == 2 )  // true
+if( a == 1 || b < 2 )   // true
+if( a < 0 || b == 2 )   // true
+if( a < 0 || b < 2 )    // false
+```
+在有一个操作数不是Boolean类型的情况下，按下表规则走
+第一个操作数 | 第二个操作数 | 返回结果 |
+-|-|-|
+Object | | Object |
+Boolean(false) | Object | Object |
+Object(第一个) | Object(第二个) | Object(第一个) |
+null | null | null |
+NaN | NaN | NaN |
+undefined | undefined | undefined |
+
+逻辑或 属于短路操作，只要第一个操作数的求值结果为true，就不会对第二个操作数求值
+4. **乘法 (*)**
+嗯，就是数学的乘法，如果出现特殊情况，则按下表规则走
+特殊情况 | 结果 |
+-|-|
+超出 ECMAScript 数值 | Infinity \|\| -Infinity |
+Infinity * 0 | NaN |
+Infinity * !0 | Infinity \|\| -Infinity |
+Number * NaN | NaN |
+Infinity * Infinity | Infinity |
+Infinity * !Number | 后台自动调用 Number() 然后按特殊情况规则走
+5. **除法 (/)**
+嗯，就是数学的除法，如果出现特殊情况，按下表规则走
+
+特殊情况 | 结果 |
+-|-|
+超出 ECMAScript 数值 | Infinity \|\| -Infinity |
+Number / NaN | NaN |
+0 / 0 | NaN |
+Infinity / Infinity | NaN |
+!0有限数 / 0 | Infinity \|\| -Infinity |
+!0 / Infinity | Infinity \|\| -Infinity |
+Infinity / !Number | 后台自动调用 Number() 然后按特殊情况规则走
+6. **求模 (%)**
+按人话来说就是数学的余数，如果出现特殊情况，按下表规则走
+
+特殊情况 | 结果 |
+-|-|
