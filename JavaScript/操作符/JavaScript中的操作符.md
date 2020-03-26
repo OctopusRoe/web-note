@@ -74,7 +74,7 @@ undefined | | undefined |
 ```javascript
 const a = true
 const b = false
-if(a && b)              // true
+if(a && b)              // false
 if(b && a)              // false
 ```
 
@@ -136,3 +136,37 @@ Infinity / Infinity | NaN |
 (Number < Infinity) / Infinity | (Number < Infinity) |
 0 / Number | 0 |
 !Number | 后台自动调用 Number() 然后按特殊情况规则走 |
+
+7. **加法 (+)**
+嗯，就是数学中的加法，如果出现特殊情况，按下表规则走
+
+特殊情况 | 结果 |
+-|-|
+NaN + Number | NaN |
+Infinity + Infinity | Infinity |
+-Infinity + -Infinit | -Infinit |
+Infinity + -Infinit | NaN |
+String + String | String |
+Number + String | String |
+!String | 后台自动调用 toString() 然后在拼串 |
+Undefined \|\| Null | 后台调用 String() 然后在拼串 |
+```javascript
+const a = 5
+const b = '5'
+const c = a + b     // '55'
+```
+
+8. **减法 (-)**
+还是数学中的减法，如果出现特殊情况，按下表规则走
+
+特殊情况 | 结果 |
+-|-|
+NaN - Number | NaN |
+-Infinity - -Infinity | NaN |
+Infinity - -Infinity | Infinity |
+-Infinity - Infinity | -Infinity |
+!Number | 后台调用 Number() 然后按特殊情况走 |
+Object | 后台调用 valueOf() 如果取的是NaN 则返回NaN |
+Object | 没valueOf() 调用 toString() 把 String 转换成 Number |
+
+1. **关系操作符 (< & > & <= & >=)**

@@ -18,4 +18,5 @@ Boolean(a)
  Number | 任何非0的数值(包括无穷大) | 0和NaN |
  Object | 任何对象 | null |
  Undefined | 不适用 | undefined |
+
 **非空既真，非0即真**
