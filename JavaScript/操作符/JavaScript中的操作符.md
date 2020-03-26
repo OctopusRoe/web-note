@@ -135,7 +135,7 @@ Number < Infinity / 0 | NaN |
 Infinity / Infinity | NaN |
 (Number < Infinity) / Infinity | (Number < Infinity) |
 0 / Number | 0 |
-!Number | 后台自动调用 Number() 然后按特殊情况规则走 |
+!Number & Number | 后台自动调用 Number() 然后按特殊情况规则走 |
 
 7. **加法 (+)**
 嗯，就是数学中的加法，如果出现特殊情况，按下表规则走
@@ -148,8 +148,8 @@ Infinity + Infinity | Infinity |
 Infinity + -Infinit | NaN |
 String + String | String |
 Number + String | String |
-!String | 后台自动调用 toString() 然后在拼串 |
-Undefined \|\| Null | 后台调用 String() 然后在拼串 |
+!String & Number | 后台自动调用 toString() 然后拼串 |
+Undefined \|\| Null | 后台调用 String() 然后拼串 |
 ```javascript
 const a = 5
 const b = '5'
@@ -165,8 +165,27 @@ NaN - Number | NaN |
 -Infinity - -Infinity | NaN |
 Infinity - -Infinity | Infinity |
 -Infinity - Infinity | -Infinity |
-!Number | 后台调用 Number() 然后按特殊情况走 |
-Object | 后台调用 valueOf() 如果取的是NaN 则返回NaN |
-Object | 没valueOf() 调用 toString() 把 String 转换成 Number |
+!Number & Number | 后台调用 Number() 然后按特殊情况走 |
+Object & Number | 后台调用 valueOf() 如果取的是NaN 则返回NaN |
+Object & Number | 没 valueOf() 调用 toString() 把 String 转换成 Number |
 
-1. **关系操作符 (< & > & <= & >=)**
+9. **关系操作符 (< & > & <= & >=)**
+嗯，还是数学中的规则，不过在编程语言中，关系操作符返回的是Boolean
+
+特殊情况 | 比较方法 |
+-|-|
+都是 Number | 执行数值比较 |
+都是 String | 比较 String 的字符编码值 |
+Number & !Number | !Number 转换成 Number 比较 |
+Number & Boolean | Boolean 转换成 Number 比较 |
+Number & Object | 后台调用 valueOf() 然后进行比较 |
+Number & Object | 没 valueOf() 调用 toString() 然后进行比较 |
+Number & NaN | 都是 false |
+
+比较 String 的时候，其实比较的是字符编码值，在这样的话，会出现一些奇怪的问题
+```javascript
+const a = '23' < '3'    // true
+const b = '23' < 3      // false
+```
+
+10. **相等和不相等 (== & !=)**
