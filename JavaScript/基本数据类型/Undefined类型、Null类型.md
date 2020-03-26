@@ -8,6 +8,7 @@
 const a
 console.log(a)  // undefined
 ```
+
 Null类型是JavaScript中第二个只有一个特殊值的数据类型，**null**
 * 其表示一个**空对象的指针**
 * 如果定义一个变量准备在以后使用时，可以将变量初始化为 null 
