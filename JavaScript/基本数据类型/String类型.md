@@ -11,7 +11,7 @@ const d = '1' + '2'
 /* 结果为'12'string +string = string */
 ```
 
-##### - 常用方法
+### 常用方法
 * indexOf() 用于检索字符串是否含有指定的内容
 ```javascript
 stringObject.indexof(searchvalue,fromindex)
