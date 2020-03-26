@@ -2,7 +2,7 @@
 
 ---
 
-##### 一元操作符
+#### 一元操作符
 
 1. **递增和递减操作符**
 JavaScript的递增和递减有两个版本，前置型和后置型。
@@ -23,6 +23,7 @@ for(const i = 0, i < 10, i++){
     console.log(i)
 }
 ```
+
 2. **一元加和减操作符**
 +号常用来，把纯数字String 快速转换成Number
 -号和数学中的一样，表示负值，也能把纯数字的String 转换成Numnber
@@ -32,7 +33,8 @@ const b = + a   // Number类型的12
 const c = - a   // Number类型的-12
 ```
 
-##### 布尔操作符
+#### 布尔操作符
+
 1. **逻辑非 (！)**
 JavaScript高级中的翻译看的人很难理解，如果按人话来说，就是取反，真变假，假变真。
 如果是Boolean类型，就直接取反值。
@@ -47,6 +49,7 @@ console.log(!NaN)       // true
 console.log(!undefined) // true
 console.log(!null)      // true
 ```
+
 2. **逻辑与 (&&)**
 以人话来说，在都是Boolean类型的情况下，只有条件都为true，结果才为true，只要有一个条件为false，结果都是false
 ```javascript
@@ -74,6 +77,7 @@ const b = false
 if(a && b)              // true
 if(b && a)              // false
 ```
+
 3. **逻辑或 (||)**
 按人话来说，就是语文的 “或者”，只要有一个条件为true，结果就为true，只有条件都为false，结果才是false
 ```javascript
@@ -107,6 +111,7 @@ Infinity * !0 | Infinity \|\| -Infinity |
 Number * NaN | NaN |
 Infinity * Infinity | Infinity |
 Infinity * !Number | 后台自动调用 Number() 然后按特殊情况规则走
+
 5. **除法 (/)**
 嗯，就是数学的除法，如果出现特殊情况，按下表规则走
 
@@ -119,8 +124,15 @@ Infinity / Infinity | NaN |
 !0有限数 / 0 | Infinity \|\| -Infinity |
 !0 / Infinity | Infinity \|\| -Infinity |
 Infinity / !Number | 后台自动调用 Number() 然后按特殊情况规则走
+
 6. **求模 (%)**
 按人话来说就是数学的余数，如果出现特殊情况，按下表规则走
 
 特殊情况 | 结果 |
 -|-|
+Infinity / Number < Infinity | NaN |
+Number < Infinity / 0 | NaN |
+Infinity / Infinity | NaN |
+(Number < Infinity) / Infinity | (Number < Infinity) |
+0 / Number | 0 |
+!Number | 后台自动调用 Number() 然后按特殊情况规则走 |
