@@ -12,7 +12,7 @@ const c = 0.1
 /* 浮点数可以用于科学计数法 */
 const d = 3.156e7   //3.156e7 = 3.156 * 1,000,000
 ```
-##### NaN(非数值)
+### NaN(非数值)
 在JavaScript中任何涉及到 NaN的操作，都会返回NaN，而且NaN与任何值都不相等，包括NaN本身
 isNaN() 函数，用于判断参数是否是NaN
 ```javascript
@@ -20,13 +20,13 @@ isNaN(NaN)  // true
 isNaN(10)   // false
 isNaN('1')  // true
 ```
-##### 数值转换
+### 数值转换
 - true = 1
 - false = 0
 - null = 0
 - undefined = NaN
 - '' = 0 
-##### - 常用方法
+### 常用方法
 ```javascript
 const a = 1 + 2
 const b = 1 * 2
