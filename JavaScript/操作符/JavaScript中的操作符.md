@@ -196,3 +196,59 @@ const b = '23' < 3      // false
 ### 相等操作符
 
 1. **相等和不相等 (== & !=)**
+如果两个操作数相等，而且使用 **==** 来比较，则返回 **true**，否则返回 **false**。如果两个操作数不相等，而且使用 **!=** 来比较，则返回 **true**，否则返回 **false**。
+> 这两个操作符都会先转换操作数(**强制转换**)，然后在比较它们的相等性
+
+在转换不同的数据类型时，以下列规则走
+
+类型 | 规则 |
+-|-|
+Boolean | 先转换成 Number,false == 0,true == 1 |
+String & Number | 先把 String 转换成 Number |
+Object & Object | 比较是否是同一个对象，如果都指向同一个对象则返回true，否则返回false |
+
+特殊情况的比较结果
+
+表达式 | 结果 |
+-|-|
+null == undefined | true |
+'NaN' == NaN | false |
+5 == NaN | false |
+NaN == NaN | false |
+NaN != NaN | true |
+false == 0 | true |
+true == 1 | true |
+undefined == 0 | false |
+null == 0 | false |
+'5' == 5 | true |
+
+2. **全等和不全等 (=== & !==)**
+全等和不全等 **在比较之前不会转换操作数** ，**===** 只在在操作数 **未经转换就相等** 的情况下才返回 **true**，**!==** 只在操作数 **未经转换就不相等** 的情况下才返回 **true**
+```javascript
+const a = ('55' == 55)  // true
+const b = ('55' === 55) // false
+```
+> 在强调一次 **=== & !== 在比较前不会对操作数进行类型转换，而 == & != 会在比较前对操作数进行类型转换** 
+
+### 条件操作符
+
+嗯，可以简化 if 语句的输入，我个人很喜欢在优化代码的时候使用，但是不能写的太复杂，不然以后会看的头大
+```javascript
+const a = booleanExpression ? trueValue : falseValue
+```
+按Js高级上的解释来说，就是对 booleanExpression 的求值结果，决定给变量 a 赋予 trueValue 还是赋予 falseValue
+
+### 赋值操作符
+
+就是用 = 把右边的值赋予给左侧的变量
+```javascript
+const a = 10
+```
+复合赋值
+```javascript
+const a += b    // a = a + b
+const a -= b    // a = a - b
+const a *= b    // a = a * b
+const a /= b    // a = a / b
+const a %= b    // a = a % b
+```
