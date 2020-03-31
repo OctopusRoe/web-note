@@ -1,5 +1,4 @@
 ## Number类型
-
 ---
 
 ```javascript
