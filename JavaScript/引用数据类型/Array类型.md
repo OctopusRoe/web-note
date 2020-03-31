@@ -58,14 +58,18 @@ console.log(Array.isArray(a))    // true
 
 ### 常用方法
 
-join() 可以使用不同的分隔符来构建 Array 的输出的字符串
+#### join()
+
+可以使用不同的分隔符来构建 Array 的输出的字符串
 ```javascript
 const a = [1,2,3,4]
 console.log(a.join(''))     // '1234'
 console.log(a.join('|'))    // '1|2|3|4'
 ```
 
-push() 接收任意数量的参数，把参数逐个添加到 Array 末尾，返回修改后的 Array 的 length
+#### push()
+
+接收任意数量的参数，把参数逐个添加到 Array 末尾，返回修改后的 Array 的 length
 ```javascript
 const a = [1,2,3,4,5]
 const b = a.push(6,7,8)
@@ -73,7 +77,9 @@ console.log(a.length)       // 新长度 8
 console.log(b)              // 返回数组a的新长度 8
 ```
 
-pop() 从 Array 末尾移除最后一项，减少 Array 的 length 值，返回移除的项
+#### pop()
+
+从 Array 末尾移除最后一项，减少 Array 的 length 值，返回移除的项
 ```javascript
 const a = [1,2,3,4,5,6]
 const b = a.pop()
@@ -83,7 +89,9 @@ console.log(b)              // 返回移除的项 6
 
 > 使用 push() & pop() 方法可以提供 Array 栈方法(后进先出)
 
-shift() 移除 Array 的第一项，并返回该项，同时减少 length 的值
+#### shift()
+
+移除 Array 的第一项，并返回该项，同时减少 length 的值
 ```javascript
 const a = [1,2,3,4,5,6]
 const b = a.shift()
@@ -93,7 +101,9 @@ console.log(b)              // 返回移除的项 1
 
 > 使用 push() & shift() 方法可以提供 Array 队列方法(先进先出)，末尾进前端出
 
-unshift() 接收任意数量的参数，把参数逐个添加到 Array 前端，返回修改后的 Array 的 length
+#### unshift()
+
+接收任意数量的参数，把参数逐个添加到 Array 前端，返回修改后的 Array 的 length
 ```javascript
 const a = []
 const b = a.unshift(1,2,3,4,5)
@@ -106,14 +116,18 @@ console.log(a)              // [0,1,2,3,4,5]
 
 > 使用 unshift() & pop() 方法可以提供 Array 的反向队列方法，前端进末尾出
 
-reverse() 反转 Array 项的顺序
+#### reverse()
+
+反转 Array 项的顺序
 ```javascript
 const a = [1,2,3,4,5]
 a.reverse()
 console.log(a)              // [5,4,3,2,1]
 ```
 
-sort() 方法用于 Array 排序，默认情况下，按升序排列，否则向 sort() 方法传入一个比较函数，**比较函数接收两个参数，参数一位于参数二前返回 负数，参数一位于参数二后返回 正数，相等返回 0**
+#### sort()
+
+方法用于 Array 排序，默认情况下，按升序排列，否则向 sort() 方法传入一个比较函数，**比较函数接收两个参数，参数一位于参数二前返回 负数，参数一位于参数二后返回 正数，相等返回 0**
 ```javascript
 const a = [9,2,4,5,3,8,7,1,6]
 
@@ -127,4 +141,66 @@ function test(valueone,valuetwo){
 }
 a.sort(test)
 console.log(a)              // [9,8,7,6,5,4,3,2,1]
+```
+
+#### concat()
+
+基于当前的 Array 的所有项，创建一个新的 Array ，可以接受1个或多个参数
+```javascript
+const a = [1,2,3,4,5]
+const b = a.concat(6,7,8)
+console.log(b)              // [1,2,3,4,5,6,7,8,9]
+const c = a.concat(6,[7,8])
+console.log(c)              // [1,2,3,4,5,6,7,8,9]
+```
+
+#### slice()
+
+基于当前的 Array 中的一个或多个项创建一个新的 Array ，接受1个或2个参数(起始位置和结束位置)
+```javascript
+const a = [1,2,3,4,5,6,7,8,9]
+
+/* 接受一个参数，则视为起始位置，返回起始位置到末尾的所有项 */
+const b = a.slice(5)
+console.log(b)              // [6,7,8,9]
+
+/* 接受两个参数，返回起始位置到结束位置 -1 直接的项 */
+const c = a.slice(2,7)
+console.log(c)              // [3,4,5,6,7]
+```
+
+#### splice()
+
+方法会改变原 Array，并返回一个新的 Array ，该 Array 中包含从原始 Array 中删除的项，未删除任何项，则返回空 Array
+**Array.splice(start,howmany[,value1,value2,...])**
+参数名 | 作用 |
+-|-|
+start | 起始位置 |
+howmany | 个数 |
+value1,value2,...| 要添加的项|
+
+> 用于删除：Array.splice(start,howmany)
+```javascript
+const a = [1,2,3,4,5]
+const b = a.splice(0,3)
+console.log(a)              // [4,5]
+console.log(b)              // [1,2,3]
+/* splice(0,3) 表示从索引为0的项开始，删除3项 */
+```
+> 用于插入：Array.splice(start,howmany[,value1,value2,...])
+```javascript
+const a = [1,2,3]
+const b = a.splice(0,0,'a','b','c','d')
+console.log(a)              // ['a','b','c','d',1,2,3]
+console.log(b)              // [] 未删除项，所以返回空 Array
+const c = [1,2,3]
+const d = c.splice(0,0,[4,5,6])
+console.log(c)              // [[4,5,6],1,2,3]
+```
+> 用于替换：Array.splice(start,howmany[,value1,value2,...])
+```javascript
+const a = [1,2,3,4]
+const b = a.splice(1,2,'a','b')
+console.log(a)              // [1,'a','b',4]
+console.log(b)              // [2,3]
 ```
