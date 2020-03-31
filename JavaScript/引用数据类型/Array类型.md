@@ -227,3 +227,160 @@ console.log(b)              // [2,3]
 
 #### indexOf()
 
+从前往后检索是否含有指定的项，检索成功返回位置索引，未成功返回 -1
+**Array.indexof(searchvalue,fromindex)**
+
+参数名 | 必须 | 作用 |
+-|-|-|
+searchvalue | 是 | 用于指定需要检索的项 |
+fromindex | 否 | 用于指定开始检索的位置索引 |
+
+```javascript
+const a = [1,2,3,4,5,6]
+console.log(a.indexOf(4))   // Number 4 的索引 3
+```
+
+#### lastIndexOf()
+
+从后往前检索是否含有指定的项，检索成功返回位置索引，未成功返回 -1
+**Array.lastIndexOf(searchvalue,fromindex)**
+
+参数名 | 必须 | 作用 |
+-|-|-|
+searchvalue | 是 | 用于指定需要检索的项 |
+fromindex | 否 | 用于指定开始检索的位置索引 |
+
+```javascript
+const a = [1,2,3,4,5,6]
+console.log(a.lastIndexOf(2))   // Number 2 的索引 1
+```
+
+#### every()
+
+对 Array 中的每一项运行给定函数，如果该函数对每一项的求值都返回 **true** ，则返回 **true**，否则返回 **false**
+**Array.every( function(item,index,array){} )**
+
+参数名 | 必须 | 作用 |
+-|-|-|
+item | 是 | Array 的项 |
+index | 否 | Array 项的索引 |
+array | 否 | Array |
+
+```javascript
+const a = [1,2,3,4,5]
+const b = a.every(item => {return item > 0})
+const c = a.every(item => {return item > 2})
+console.log(b)              // true
+console.log(c)              // false
+```
+
+#### some()
+
+对 Array 中的每一项运行给定函数，如果该函数对任意一项的求值返回 **true**，则返回 **true**
+**Array.some( function(item,index,array){} )**
+
+参数名 | 必须 | 作用 |
+-|-|-|
+item | 是 | Array 的项 |
+index | 否 | Array 项的索引 |
+array | 否 | ArrayObject |
+
+```javascript
+const a = [1,2,3,4,5]
+const b = a.every(item => {return item > 2})
+const c = a.some(item => {return item > 2})
+console.log(b)              // false
+console.log(c)              // true
+```
+
+#### filter()
+
+对 Array 中的每一项运行给定的函数，返回该函数求值为true的项所组成的 Array
+**Array.filter( function(item,index,array){} )**
+
+参数名 | 必须 | 作用 |
+-|-|-|
+item | 是 | Array 的项 |
+index | 否 | Array 项的索引 |
+array | 否 | ArrayObject |
+
+```javascript
+const a = [1,2,3,4,5,6,7,8,9,4,3,2,1]
+const b = a.filter(item => {return item > 2})
+console.log(b)              // [3,4,5,6,7,8,9,4,3]
+```
+
+#### map()
+
+对 Array 中的每一项运行给定的函数，返回每次函数调用的结果所组成的 Array
+**Array.map( function(item,index,array){} )**
+
+参数名 | 必须 | 作用 |
+-|-|-|
+item | 是 | Array 的项 |
+index | 否 | Array 项的索引 |
+array | 否 | ArrayObject |
+
+```javascript
+const a = [1,2,3,4,5,6]
+const b = a.map(item => {return item * 2})
+console.log(b)              // [2,4,6,8,10,12]
+```
+
+#### forEach()
+
+对 Array 中的每一项运行给定的函数，没有返回值(for 循环的简写版)
+**Array.forEach( function(item,index,array){} )**
+
+参数名 | 必须 | 作用 |
+-|-|-|
+item | 是 | Array 的项 |
+index | 否 | Array 项的索引 |
+array | 否 | ArrayObject |
+
+```javascript
+const a = [1,2,3,4]
+a.forEach(item => {console.log(item)})
+```
+
+#### reduce()
+
+从前往后迭代 Array 的所有项，然后构建一个最终的返回值
+**Array.reduce( function(first,second,index,array){},defaultNumber )**
+
+参数名 | 必须 | 作用 |
+-|-|-|
+first | 是 | 前一个值 |
+second | 是 | 后一个值|
+index | 否 | 项的索引 |
+array | 否 | ArrayObject |
+defaultNumber | 否 | 基础值 |
+
+```javascript
+const a = [1,2,3,4,5,6,7]
+const b = a.reduce((first,second) => {return first + second})
+console.log(b)              // 28
+const c = a.reduce((first,second) => {return first + second},30)
+console.log(c)              // 58
+```
+
+#### reduceRight()
+
+从后往前迭代 Array 的所有项，然后构建一个最终的返回值
+**Array.reduceRight( function(first,second,index,array){},defaultNumber )**
+
+参数名 | 必须 | 作用 |
+-|-|-|
+first | 是 | 前一个值 |
+second | 是 | 后一个值|
+index | 否 | 项的索引 |
+array | 否 | ArrayObject |
+defaultNumber | 否 | 基础值 |
+
+```javascript
+const a = [1,2,3,4,5,6,7]
+const b = a.reduceRight((first,second) => {return first + second})
+console.log(b)              // 28
+const c = a.reduceRight((first,second) => {return first + second},30)
+console.log(c)              // 58
+```
