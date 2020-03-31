@@ -75,9 +75,9 @@ howmany: 可选，number 规定返回的arrray[string].length < howmany
 
 #### 消除字符串头部和尾部的空格
 
-* trim() 用于消除字符串头部和尾部的空格
-* trimStart() 用于消除字符串头部的空格
-* trimEnd() 用于消除字符串尾部的空格
+- trim() 用于消除字符串头部和尾部的空格
+- trimStart() 用于消除字符串头部的空格
+- trimEnd() 用于消除字符串尾部的空格
 
 ```javascript
 const a = ' a '
@@ -100,8 +100,8 @@ end: 同start，0 > end 从右开始
 
 #### 改变字符串大小写
 
-* toLowerCase() 把stringObject变小写
-* toUpperCase() 把stringObject变大写
+- toLowerCase() 把stringObject变小写
+- toUpperCase() 把stringObject变大写
 
 ```javascript
 stringObject.toLowerCase()
