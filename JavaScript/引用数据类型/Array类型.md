@@ -3,6 +3,7 @@
 ---
 
 嗯，Array类型，就是数据的有序列表，其中的每一项都可以保存任何类型的数据(String,Number,Boolean,Object,Array,Null,undefined)
+
 ```javascript
 /* 两种创建方法 */
 
@@ -21,12 +22,14 @@ b[1] = 3
 ```
 
 每个 Array类型 都有一个长度属性 length ,它表示 Array 中一共有多少项数
+
 ```javascript
 const a = [1,2,3,4,5,6,7,8,9]
 console.log(a.length)   // 控制台输出 9
 ```
 
 但是！length 属性不是 readonly ，可以通过手动修改 length 来给 Array 添加新项或移除项
+
 ```javascript
 /* 通过修改 lenght 长度来移除最后一项 */
 const a = [1,2,3,4,5]
@@ -43,6 +46,7 @@ console.log(b[3])       // undefined
 ```
 
 在 Array类型中 下标索引的最大值 永远是 Array.length - 1，通过这个，我们可以很方便的给 Array 末尾添加新项
+
 ```javascript
 const a = [1,2,3]
 a[a.length] = 4
@@ -51,6 +55,7 @@ console.log(a)          // [1,2,3,4,5]
 ```
 
 检查是否是 Array类型
+
 ```javascript
 const a = [1,2,3]
 console.log(Array.isArray(a))    // true
@@ -61,6 +66,7 @@ console.log(Array.isArray(a))    // true
 #### join()
 
 可以使用不同的分隔符来构建 Array 的输出的字符串
+
 ```javascript
 const a = [1,2,3,4]
 console.log(a.join(''))     // '1234'
@@ -70,6 +76,7 @@ console.log(a.join('|'))    // '1|2|3|4'
 #### push()
 
 接收任意数量的参数，把参数逐个添加到 Array 末尾，返回修改后的 Array 的 length
+
 ```javascript
 const a = [1,2,3,4,5]
 const b = a.push(6,7,8)
@@ -80,6 +87,7 @@ console.log(b)              // 返回数组a的新长度 8
 #### pop()
 
 从 Array 末尾移除最后一项，减少 Array 的 length 值，返回移除的项
+
 ```javascript
 const a = [1,2,3,4,5,6]
 const b = a.pop()
@@ -92,6 +100,7 @@ console.log(b)              // 返回移除的项 6
 #### shift()
 
 移除 Array 的第一项，并返回该项，同时减少 length 的值
+
 ```javascript
 const a = [1,2,3,4,5,6]
 const b = a.shift()
@@ -104,6 +113,7 @@ console.log(b)              // 返回移除的项 1
 #### unshift()
 
 接收任意数量的参数，把参数逐个添加到 Array 前端，返回修改后的 Array 的 length
+
 ```javascript
 const a = []
 const b = a.unshift(1,2,3,4,5)
@@ -119,6 +129,7 @@ console.log(a)              // [0,1,2,3,4,5]
 #### reverse()
 
 反转 Array 项的顺序
+
 ```javascript
 const a = [1,2,3,4,5]
 a.reverse()
@@ -128,6 +139,7 @@ console.log(a)              // [5,4,3,2,1]
 #### sort()
 
 方法用于 Array 排序，默认情况下，按升序排列，否则向 sort() 方法传入一个比较函数，**比较函数接收两个参数，参数一位于参数二前返回 负数，参数一位于参数二后返回 正数，相等返回 0**
+
 ```javascript
 const a = [9,2,4,5,3,8,7,1,6]
 
@@ -146,6 +158,7 @@ console.log(a)              // [9,8,7,6,5,4,3,2,1]
 #### concat()
 
 基于当前的 Array 的所有项，创建一个新的 Array ，可以接受1个或多个参数
+
 ```javascript
 const a = [1,2,3,4,5]
 const b = a.concat(6,7,8)
@@ -157,6 +170,7 @@ console.log(c)              // [1,2,3,4,5,6,7,8,9]
 #### slice()
 
 基于当前的 Array 中的一个或多个项创建一个新的 Array ，接受1个或2个参数(起始位置和结束位置)
+
 ```javascript
 const a = [1,2,3,4,5,6,7,8,9]
 
@@ -173,6 +187,7 @@ console.log(c)              // [3,4,5,6,7]
 
 方法会改变原 Array，并返回一个新的 Array ，该 Array 中包含从原始 Array 中删除的项，未删除任何项，则返回空 Array
 **Array.splice(start,howmany[,value1,value2,...])**
+
 参数名 | 作用 |
 -|-|
 start | 起始位置 |
@@ -180,6 +195,7 @@ howmany | 个数 |
 value1,value2,...| 要添加的项|
 
 > 用于删除：Array.splice(start,howmany)
+
 ```javascript
 const a = [1,2,3,4,5]
 const b = a.splice(0,3)
@@ -187,7 +203,9 @@ console.log(a)              // [4,5]
 console.log(b)              // [1,2,3]
 /* splice(0,3) 表示从索引为0的项开始，删除3项 */
 ```
+
 > 用于插入：Array.splice(start,howmany[,value1,value2,...])
+
 ```javascript
 const a = [1,2,3]
 const b = a.splice(0,0,'a','b','c','d')
@@ -197,10 +215,15 @@ const c = [1,2,3]
 const d = c.splice(0,0,[4,5,6])
 console.log(c)              // [[4,5,6],1,2,3]
 ```
+
 > 用于替换：Array.splice(start,howmany[,value1,value2,...])
+
 ```javascript
 const a = [1,2,3,4]
 const b = a.splice(1,2,'a','b')
 console.log(a)              // [1,'a','b',4]
 console.log(b)              // [2,3]
 ```
+
+#### indexOf()
+
