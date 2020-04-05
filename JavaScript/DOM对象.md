@@ -244,9 +244,31 @@ console.log(a.nextSibling)
 
 ### Html DOM Document Object (修改对象)
 
+#### createElement()
+
+创建一个新的元素节点
+
+`document.createElement(elementName)`
+
+```javascript
+const a = document.createElement('p')
+```
+
+#### createTextNode()
+
+创建一个新的文本节点
+
+`document.createTextNode('dataValue')`
+
+```javascript
+const a = document.createTextNode('234123')
+```
+
 #### appendChild()
 
 把新的子节点，添加到指定的节点
+
+`fatherNode.appendChild(node)`
 
 ```html
 <!-- html 标签 -->
@@ -260,13 +282,16 @@ console.log(a.nextSibling)
 ```javascript
 /* javascript 代码 */
 const a = document.getElementById('div')
+const b = document.createElement('p')
 
-a.appendChild('p')
+a.appendChild(b)
 ```
 
 #### removeChild()
 
 删除指定的子节点
+
+`fatherNode.removeChild(node)`
 
 ```html
 <!-- html 标签 -->
@@ -336,3 +361,72 @@ c.appendChild(b)                // 把文本节点 添加到 p节点 下
 
 a.insertBefore(c,document.getElementById('p'))
 ```
+
+### Node Attribute (节点属性与方法)
+
+#### innerHTML
+
+属性，用于设置或者修改 Node 内的文本内容
+
+```html
+<!-- html 标签 -->
+<p id='p'>123</p>
+```
+
+```javascript
+/* javascript 代码 */
+document.getElementById('p').innerHTML = '234'
+```
+
+#### createAttribute()
+
+创建属性节点
+
+`document.createAttribute(attributeName)`
+
+```javascript
+/* javascript 代码 */
+document.createAttribute('class')
+```
+
+#### getAttribute()
+
+返回 node 指定的属性值
+
+```html
+<!-- html 标签 -->
+<p id='p' name='attribute'>123</p>
+```
+
+```javascript
+/* javascript 代码 */
+const a = doucment.getElementById('p')
+console.log(a.getAttribute('name'))         // attribute
+```
+
+#### setAttribute()
+
+设置 node 属性
+
+```html
+<!-- html 标签 -->
+<p id='p' name='attribute'>123</p>
+```
+
+```javascript
+/* javascript 代码 */
+const a = getElementById('p')
+a.setAttribute('name','newAttribute')
+```
+
+> 其实设置和得到 attribute 的属性值，常用对象的属性，只有在自定义 attribute 的时候，才用 setAttribute() & getAttribute() 方法
+
+#### attributes
+
+属性，是一个 attribute 的集合，有下列方法和属性
+
+- getNamedItem(name)：返回 值是 name 的 attribute
+- removeNamedItme(name)：移除 值是 name 的 attribute
+- setNamedItem(node)：向 attributes 中，添加 attriubte
+
+> 通过 attributes 来修改 attribute 太麻烦了，了解下就好
