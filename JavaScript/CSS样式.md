@@ -57,49 +57,19 @@ console.log(window.getComputedStyle(a))
 
 ### 其他一些 node CSS 属性
 
-#### clientWidth
-
-获取 node 元素的 可见宽度 (包括内边距)
-
-#### clientHeight
-
-获取 node 元素的 可见高度 (包括内边距)
-
-#### offsetWidth
-
-获取 node 元素的 可见宽度 (包括内边距，边框)
-
-#### offsetHeight
-
-获取 node 元素的 可见高度 (包括内边距，边框)
-
-#### offsetParent
-
-获取当前 node 元素 最近开启了 定位的 父元素
-
-#### offsetLeft
-
-获取 node 元素 水平偏移位置
-
-#### offsetTop
-
-获取 node 元素 垂直偏移位置
-
-#### scrollHeight
-
-获取 node 元素 的整体高度 (有滚动条的，包括滚动条内的高度)
-
-#### scrollWidth
-
-获取 node 元素 的整体宽度 (有滚动条的，包括滚动条内的宽度)
-
-#### scrollLeft
-
-获取滚动条水平滚动距离 (元素滚动条)
-
-#### scrollTop
-
-获取滚动条垂直滚动距离 (元素滚动条)
+属性名 | 作用 |
+-|-|
+clientWidth | 获取 node 元素的 可见宽度 (包括内边距) |
+clientHeight | 获取 node 元素的 可见高度 (包括内边距) |
+offsetWidth | 获取 node 元素的 可见宽度 (包括内边距，边框) |
+offsetHeight | 获取 node 元素的 可见高度 (包括内边距，边框) |
+offsetParent | 获取当前 node 元素 最近开启了 定位的 父元素 |
+offsetLeft | 获取 node 元素 水平偏移位置 |
+offsetTop | 获取 node 元素 垂直偏移位置 |
+scrollHeight | 获取 node 元素 的整体高度 (有滚动条的，包括滚动条内的高度) |
+scrollWidth | 获取 node 元素 的整体宽度 (有滚动条的，包括滚动条内的宽度) |
+scrollLeft | 获取滚动条水平滚动距离 (元素滚动条) |
+scrollTop | 获取滚动条垂直滚动距离 (元素滚动条) |
 
 > scrollHeight - scrollTop = clientHeight 时，说明滚动条到底了 (垂直)
 > scrollWidth - scrollLeft = clientWidth 时，说明滚动条到底了 (水平)
