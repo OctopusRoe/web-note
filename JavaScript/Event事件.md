@@ -4,6 +4,19 @@
 
 当 event 事件的响应 function 被触发时，浏览器每次都会将一个 event object 作为参数传递进响应 function，**event object中封装了当前事件相关的一切信息**
 
+#### event object 属性和方法
+
+属性名/方法名 | 类型 | 作用 |
+-|-|-|
+bubbles | Boolean | 表明事件是否冒泡 |
+cancelable | Boolean | 表明是否可以取消 event 事件的默认行为 |
+currenTarget | Element | 其 event 事件处理程序当前正在处理事件的那个 element 元素 |
+preventDefault() | Function | 取消事件的默认行为，如果 cancelable 属性是 true，则可以用此方法 |
+stopPropagation() | Function | 取消事件的进一步捕获或者冒泡，如果 bubbles 属性为 true，则可以用此方法 |
+stopImmediatePropagation() | Function | 取消事件的进一步捕获或冒泡，同时阻止任何 event 事件程序被调用 |
+target | Element | event 事件的目标 element 元素 |
+type | String | 被触发的 event 事件 的类型 |
+
 > IE8 中响应函数被触发时，浏览器不会传递 event object 作为实参而是将 event object 作为 window object 的属性保存
 
 ### Event 事件传播
