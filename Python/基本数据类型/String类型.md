@@ -123,3 +123,13 @@ String.islower() | 当 String 所有字符都是小写，返回 true ，否则�
 String.isprintable() | 当 String 所有字符都是可印的，返回 true ，否则返回 false |
 String.isnumeric() | 当 String 所有字符都是 Number 时，返回 true ，否则返回 false |
 String.isspace() | 当 String 所有字符都是空格，返回 true ，否则返回 false |
+String.endswith(suffix[,start[,end]]) | String[start:end] 以 suffix 结尾返回 true ，否则返回 false |
+String.starstwith(prefix[,start[,end]]) | String[start:end] 以 prefix 开始返回 true ，否则返回 false |
+String.split(sep=None,maxsplit=-1) | 返回一个 Array，由 String 根据 sep 分割的部分组成，sep默认为空格，maxsplit 为最大分割数 |
+String.count(sub[,start[,end]]) | 返回 String[start:end] 中 sub 子串出现的次数 |
+String.replace(old,new[,count]) | 返回 String 的副本，所有 old 都被 new 所替换，如果给出 count 则前 count 次的 old 被替换 |
+String.center(width[,fillchar]) | 返回新的 String ，并且把旧的 String 居中，其中 width 为长度，fillchar 为填充字符 |
+String.strip([chars]) | 返回 String 的副本，并且去除左侧和右侧中 chars 中列出的字符 |
+String.zfill(width) | 返回 String 的副本，长度为 width，不足部分在左侧添加 0 |
+String.format() | 返回 String 的一种排版格式化 |
+String.join(iterable) | 返回一个新的 String ，由 iterable 变量的每个元素组成，元素间用 String 分割 |
