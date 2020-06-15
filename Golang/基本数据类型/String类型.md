@@ -188,5 +188,3 @@ a := []string{'h','e','l','l','o'}
 
 fmt.Println(strings.Join(a, ""))        // hello
 ```
-
-
