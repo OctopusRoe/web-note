@@ -72,8 +72,8 @@ for i := 0; i < len(a)-1; i++ {
 
 /* *********************** */
 
-for _, i := range a{
-    fmt.Println(i)
+for index, value := range a{
+    fmt.Println(index,value)
 }
 ```
 
