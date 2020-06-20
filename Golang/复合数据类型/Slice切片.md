@@ -36,11 +36,11 @@ fmt.Println(c == nil)       // false
 
 **注意：** slice 和 array不同，slice之间不能比较，slice 唯一合法的比较操作是和 `nil` 比较
 
-### 切片的长度和容量
+#### 切片的长度和容量
 
 Slice 拥有自己的长度和容量，可以使用内置 `len()` 函数求 slice 的长度，使用内置 `cap()` 函数求 slice 的容量
 
-### 切片的表达式
+#### 切片的表达式
 
 切片表达式是从 string、array、指向 array 或 slice 的指针构造子 string 或 slice。
 
@@ -207,3 +207,132 @@ for _, v := range a{
 }
 ```
 
+### append() 方法为 slice 添加元素
+
+Go语言的内建函数 `append()` 可以为 slice 动态的添加元素，既可以一次添加一个，也可以添加多个元素，还可以添加另一个 slice 中的所有元素(slice后面加...)
+
+```go
+var a []int
+
+a = append(s,1)             // [1]
+a = append(s,2,3,4)         // [1 2 3 4]
+
+var b = []int{5,6,7}
+
+a = append(a,b...)          // [1 2 3 4 5 6 7]
+```
+
+**注意：** 通过 var 声明的零值 slice 可以在`append()` 函数直接使用，无需初始化
+
+因为每个 slice 指向的底层 array，当这个 array 的 cap容量 够用就添加新增元素，而当底层 array 的 cap容量不能容纳新增元素时，slice 就会按照一定的策略进行 **扩容** 此刻该 slice 指向的底层 array 就会更换。
+
+扩容操作常发生在 `append()` 函数调用时，所以通常都要使用原变量接收 `append()` 函数的返回值
+
+```go
+var a []int
+
+for i:=0;i<10;i++ {
+    a = append(a,i)
+    fmt.Printf("%v len:%d cap:%d ptr:%p\n",a,len(a),cap(a),a)
+}
+
+/* 输出 */
+
+[0]  len:1  cap:1  ptr:0xc0000a8000
+[0 1]  len:2  cap:2  ptr:0xc0000a8040
+[0 1 2]  len:3  cap:4  ptr:0xc0000b2020
+[0 1 2 3]  len:4  cap:4  ptr:0xc0000b2020
+[0 1 2 3 4]  len:5  cap:8  ptr:0xc0000b6000
+[0 1 2 3 4 5]  len:6  cap:8  ptr:0xc0000b6000
+[0 1 2 3 4 5 6]  len:7  cap:8  ptr:0xc0000b6000
+[0 1 2 3 4 5 6 7]  len:8  cap:8  ptr:0xc0000b6000
+[0 1 2 3 4 5 6 7 8]  len:9  cap:16  ptr:0xc0000b8000
+[0 1 2 3 4 5 6 7 8 9]  len:10  cap:16  ptr:0xc0000b8000
+```
+
+以上可以看出在：
+
+1. `append()` 函数将原始追加到 slice 的最后并且返回新 slice
+2. slice 切片的容量扩容后，内存地址被修改，说明，底层数组被更换了
+
+### slice 的扩容策略
+
+可以通过查看 `$GOROOT/src/runtime/slice.go` 源码
+
+```go
+newcap := old.cap
+doublecap := newcap + newcap
+if cap > doublecap {
+	newcap = cap
+} else {
+	if old.len < 1024 {
+		newcap = doublecap
+	} else {
+		// Check 0 < newcap to detect overflow
+		// and prevent an infinite loop.
+		for 0 < newcap && newcap < cap {
+			newcap += newcap / 4
+		}
+		// Set newcap to the requested cap when
+		// the newcap calculation overflowed.
+		if newcap <= 0 {
+			newcap = cap
+		}
+	}
+}
+```
+
+以上可以代码可以看出:
+
+1. 首先判断，如果新申请 cap 容量大于2倍的 old.cap 旧容量，最终 newcap 新容量就是新申请的 cap 容量
+2. 否则判断，如果 slice 的 old.len 小于1024，则 newcap 新容量就是 old.cap 的两倍，即 `newcap = doublecap`
+3. 否则判断，如果 slice 的 old.len 大于1024，则 newcap 新容量从 old.cap 开始循环增加原来的 1/4，即 `for 0 < newcap &&newcap < cap {newcap += newcap / 4}` 直到 newcap 新容量大于等于新申请的 cap 容量，即 `newcap < cap` 判断为`false`
+4. 如果新容量 newcap 计算值溢出，则新容量 newcap 就是新申请容量 cap
+
+这里需要注意的是，slice 扩容还会根据 slice 中的元素类型不同做不同的处理，比如 `int` 和 `string` 类型的处理方式就不同
+
+### 使用 copy() 函数复制 slice
+
+由于 slice 是引用数据类型，修改两个引用同一个底层 array 中的一个 slice 的值时，另一个 slice 的值也会跟着改变
+
+Go语言中内建的 `copy()` 函数可以迅速的将一个 slice 中的数据复制到另一个 slice 空间(在内存中开辟一块新的空间，用于存放数据)
+
+```go
+copy(destSlice, srcSlice []T)
+```
+
+参数名 | 介绍 |
+-|-|
+destSlice | 目标 slice |
+srcSlice | 数据来源 slice |
+
+```go
+var a = []int{1,2,3,4,5}
+var c = make([]int,5,5)
+
+copy(c,a)
+
+fmt.Println(a)          // [1 2 3 4 5]
+fmt.Println(c)          // [1 2 3 4 5]
+
+c[0] = 100
+
+fmt.Println(a)          // [1 2 3 4 5]
+fmt.Println(c)          // [100 2 3 4 5]
+```
+
+### 从 slice 中删除元素
+
+Go语言中并没有删除 slice 中元素的专用方法，但是可以使用 slice 本身的特性来删除指定元素
+
+```go
+var a = []int{1,2,3,4,5}
+
+/* 删除索引为2的元素 */
+
+a = append(a[:2],a[:3]...)
+
+fmt.Println(a)          // [1 2 4 5]
+```
+
+要从 slice 中删除索引为 `index` 的元素，方法就是 `slice = append(slice[:index],slice[index+1]...)`
