@@ -136,23 +136,23 @@ fmt.Println(a)              // map[one:1 two:2]
 
 ```go
 func main() {
-	rand.Seed(time.Now().UnixNano()) //初始化随机数种子
+	rand.Seed(time.Now().UnixNano())			//初始化随机数种子
 
 	var scoreMap = make(map[string]int, 200)
 
 	for i := 0; i < 100; i++ {
-		key := fmt.Sprintf("stu%02d", i) //生成stu开头的字符串
-		value := rand.Intn(100)          //生成0~99的随机整数
+		key := fmt.Sprintf("stu%02d", i)		//生成stu开头的字符串
+		value := rand.Intn(100)					//生成0~99的随机整数
 		scoreMap[key] = value
 	}
-	//取出map中的所有key存入切片keys
+	/* 取出map中的所有key存入切片keys */
 	var keys = make([]string, 0, 200)
 	for key := range scoreMap {
 		keys = append(keys, key)
 	}
-	//对切片进行排序
+	/* 对切片进行排序 */
 	sort.Strings(keys)
-	//按照排序后的key遍历map
+	/* 按照排序后的key遍历map */
 	for _, key := range keys {
 		fmt.Println(key, scoreMap[key])
 	}
@@ -164,12 +164,16 @@ func main() {
 `slice` 中的元素为 `map` 时，不仅要对 `slice` 进行初始化，还必须对 `map` 也进行初始化，否则无法使用
 
 ```go
-var a []map[string]int			// 声明语句，平常可以不写，直接使用 make()
+/* 声明语句，平常可以不写，直接使用 make() */
+var a []map[string]int
 
-a = make([]map[string]int,3)	// 初始化 slice
-a[0] = make(map[string]int,3)	// 初始化 map
+/* 初始化 slice */
+a = make([]map[string]int,3)
+/* 初始化 map */
+a[0] = make(map[string]int,3)
 
-a[0]["one"] = 1					// 赋值
+/* 赋值 */
+a[0]["one"] = 1
 a[0]["two"] = 2
 a[0]["three"] = 3
 
@@ -193,13 +197,18 @@ fmt.Println(b)
 `map` 中的值为 `slice` 类型时，同样不仅要对 `map` 进行初始化，还必须对 `slice` 也进行初始化，否则无法使用
 
 ```go
-var a map[string][]string		// 声明语句，平常可以不写，直接使用 make()
+/* 声明语句，平常可以不写，直接使用 make() */
+var a map[string][]string
 
-a = make(map[string][]string,3)	// 初始化 map
-a["one"] = make([]string,2,2)	// 初始化 "one"slice
-a["two"] = make([]string,2,2)	// 初始化 "two"slice
+/* 初始化 map */
+a = make(map[string][]string,3)
+/* 初始化 "one"slice */
+a["one"] = make([]string,2,2)
+/* 初始化 "two"slice */
+a["two"] = make([]string,2,2)
 
-a["one"][0] = "blue"			// 赋值
+/* 赋值 */
+a["one"][0] = "blue"
 a["one"][1] = "grey"
 
 a["two"][0] = "110"
