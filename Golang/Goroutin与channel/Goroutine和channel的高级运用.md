@@ -300,3 +300,156 @@ func GetInstance() *singleton {
 ```
 
 `sync.Once` 其实内部包含一个互斥锁和一个布尔值，互斥锁保证布尔值和数据的安全，而布尔值用来记录初始化是否完成，这样的设计就能保证促使和操作的时候是并发安全的并且初始化操作也不会被执行多次
+
+#### sync.Map
+
+Go语言中内置的 `map` 不是并发安全的
+
+```go
+var m = make(map[string]int)
+
+func get(key string) int {
+    return m[key]
+}
+
+func set(key string, value int) {
+    m[key] = value
+}
+
+func main() {
+    wg := sync.WaitGroup{}
+    for i := 0; i < 20; i++ {
+        wg.Add(1)
+        go func(n int) {
+            defer wg.Done()
+            key := strconv.Itoa(n)
+            set(key, n)
+            fmt.Printf("key=%v,value=%v\n",key,get(key))
+        }(i)
+    }
+    wg.Wait()
+}
+```
+
+上面的例子，在运行20个 `goroutine` 时是不会报错的，但是 `goroutine` 数量超过20个代码运行会报 `fatal error: concurrent map writes` 错误，在这样的场景下，就需要为 `map` 加锁来保证并发的安全性了
+
+Go语言 `sync` 包中就提供了一个 **开箱即用** 的并发安全版 `sync.Map`，不用像内置 `map` 一样使用 `make` 函数初始化就能直接使用
+
+在 `sync.Map` 中无法使用内置 `map` 原生的方法，但是 `sync.Map` 中提供 `Store` `Load` `LoadOrStore` `Delete` `Range` 等操作方法
+
+```go
+var m = sync.Map{}
+
+func main() {
+    wg := sync.WaitGroup{}
+    for i := 0; i < 20; i++ {
+        wg.Add(1)
+        go func (n int) {
+            defer wg.Done()
+            key := strconv.Itoa(n)
+            m.Store(key, n)
+            value, _ := m.Load(key)
+            fmt.Printf("key=%v,value=%v\n"key,value)
+        }(i)
+    }
+    wg.Wait()
+}
+```
+
+### 原子操作
+
+代码中的加锁操作因涉及内核态的上下文切换会比较耗时，针对基本数据类型，还可以使用原子操作来保证并发安全
+
+原子操作是Go语言提供的方法，在用户态就可以完成，因此性能比加锁操作更好
+
+Go语言中原子操作由内置的标准库 `sync/atomic` 提供
+
+**注意：** `sync/atomic` 包中的方法查看 https://studygolang.com/pkgdoc
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+	"sync/atomic"
+	"time"
+)
+
+type Counter interface {
+	Inc()
+	Load() int64
+}
+
+// 普通版
+type CommonCounter struct {
+	counter int64
+}
+
+func (c CommonCounter) Inc() {
+	c.counter++
+}
+
+func (c CommonCounter) Load() int64 {
+	return c.counter
+}
+
+// 互斥锁版
+type MutexCounter struct {
+	counter int64
+	lock    sync.Mutex
+}
+
+func (m *MutexCounter) Inc() {
+	m.lock.Lock()
+	defer m.lock.Unlock()
+	m.counter++
+}
+
+func (m *MutexCounter) Load() int64 {
+	m.lock.Lock()
+	defer m.lock.Unlock()
+	return m.counter
+}
+
+// 原子操作版
+type AtomicCounter struct {
+	counter int64
+}
+
+func (a *AtomicCounter) Inc() {
+	atomic.AddInt64(&a.counter, 1)
+}
+
+func (a *AtomicCounter) Load() int64 {
+	return atomic.LoadInt64(&a.counter)
+}
+
+func test(c Counter) {
+	var wg sync.WaitGroup
+	start := time.Now()
+	for i := 0; i < 1000; i++ {
+		wg.Add(1)
+		go func() {
+			c.Inc()
+			wg.Done()
+		}()
+	}
+	wg.Wait()
+	end := time.Now()
+	fmt.Println(c.Load(), end.Sub(start))
+}
+
+func main() {
+	c1 := CommonCounter{} // 非并发安全
+	test(c1)
+	c2 := MutexCounter{}  // 使用互斥锁实现并发安全
+	test(&c2)
+	c3 := AtomicCounter{} // 并发安全且比互斥锁效率更高
+	test(&c3)
+}
+```
+
+`sync/atomic` 包提供了底层的原子级内存操作，对于同步算法的实现很有用
+
+这些函数必须谨慎的宝座正确使用，除了某些特殊的底层应用，使用通道或者 `sync` 包的函数或者类型实现同步更好
