@@ -29,3 +29,11 @@ $ docker run -d -p 3306:3306 --name mysql -e MYSQL_ROOT_PASSWORD=yourpassword da
 ```
 
 * `-e MYSQL_ROOT_PASSWORD=` 用于指定 mysql 的 root 用户密码
+
+### copy the file to inside of the container
+
+```sh
+$ docker cp fileName containerID:containerInnerPath
+```
+
+注意：但是不推荐使用此方法部署服务
