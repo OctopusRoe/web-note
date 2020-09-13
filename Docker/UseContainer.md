@@ -99,3 +99,9 @@ $ docker rm containerID
 ```sh
 $ docker rm $(docker ps -qa)
 ```
+
+查看 container 信息
+
+```sh
+$ docker inspect containerID
+```
