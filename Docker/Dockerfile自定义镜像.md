@@ -108,3 +108,63 @@ ENTRYPOINT nginx -d
 ENTRYPOINT ["nginx", "-d"]
 ```
 
+#### VOLUME
+
+将 container 指定的目录挂载到宿主机或其他 container 的指定目录，如果宿主机h或其他 container 没有这个目录，将自动创建
+
+```dockerfile
+VOLUME /html /home/nginx/data/dist
+VOLUME ["/html", "/home/nginx/data/dist"]
+```
+
+一般很少在 Dockerfile 中使用，常见于在 `docker run` 的时候使用 `-v` 数据卷
+
+#### USER
+
+用于指定 container 执行 `RUN` `CMD` `ENTRYPOINT` Shell 命令时用户身份，默认是 root 用户
+
+```dockerfile
+USER OctopusRoe
+USER <user>[:<usergroup>]
+USER <UID>[:<UID>]
+```
+
+在执行 `docker run` 时可以通过 `-u` 选项来覆盖 `USER` 指令的设置
+
+#### WORKDIR
+
+用于指定 container 内的一个目录，container 启动时 `RUN` `CMD` `ENTRYPOINT` `COPY` `ADD` 执行的命令会在指定的目录下执行(相当于给 container 指定了一个工作目录)
+
+```dockerfile
+WORKDIR /data
+```
+
+#### HEALTHCHECK
+
+告诉 Docker 如何测试 container 以检测 container 是否仍在工作
+
+```dockerfile
+HEALTHCHECK --interval=5m --timeout=3s --retries=3 --start-period=30m \
+    CMD curl -f http://localhost/ || exit 1
+```
+
+1. `--interval`: 每隔多长时间探测一次，默认为30秒
+2. `timeout`: 服务响应超时时长，默认30秒
+3. `--start-period`: 服务器启动后多久开始探测，默认是0秒
+4. `--retries`: 认为检测失败几次为宕机，默认为3次
+
+命令的退出状态指示 container 的状况:
+
+1. `0`: container 可以正常使用
+2. `1`: container 无法正常使用
+3. `2`: 保留，不要使用此退出码
+
+#### ARG
+
+构建参数和 `ENV` 的效果一样，都是设置环境变量，所不同的是，`ARG` 所设置是构建环境的环境变量，在 container 运行时时不会存在使用 `ARG` 构建的变量的，不要使用 `ARG` 来保存密码之类的敏感信息，因为 `docker history` 还是可以看到所有的值
+
+使用 `ARG` 构建的环境参数，可以在构建命令 `docker build` 中使用 `--build-arg <参数名>=<值>` 来覆盖
+
+```dockerfile
+ARG <参数名>[=<默认值>]
+```
