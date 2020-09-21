@@ -44,7 +44,7 @@ events {
 }
 ```
 
-1. accept_mutex: 设置网络连接序列化，防止惊群发生，默认为 on
+1. accept_mutex: 设置网络连接序列化，防止多个进程对连接的争抢，默认为 on
 2. multi_accept: 设置一个进程是否同事接受多个网络连接，默认为 off
 3. use: 设置驱动模型，包含 `select | poll | kqueue | epoll | resig | /dev/poll | eventport`
 4. worker_connections: `worker_processes` 的最大连接数量，理论上每台 `nginx` 服务器的最大连接数为 `worker_processes * worker_connections`
@@ -82,6 +82,7 @@ http {
     sendfile     on;
     sendfile_max_chunk 100k;
     keepalive_timeout  60s;
+    keepalive_requests 10;
 
     upstream mysvr {
         server 127.0.0.1;
@@ -93,3 +94,35 @@ http {
     include /etc/nginx/conf.d/*.conf;
 }
 ```
+
+1. include: 表示引入一个外部文件
+2. default_type: 默认类型，`application/octet-stream` 表示以流的形式下载文件，这样可以实现任意格式的文件下载
+3. log_format: 自定义log格式和log格式名
+4. access_log: log日志保存路径和使用的log格式的格式名，如果直接使用 `off`，表示取消log日志服务
+5. sendfile: 允许使用 `sendfile` 方式传输文件，默认为 off，可以使用在 `http块`、`server块`、`location块`
+6. sendfile_max_chunk: 每个进程每次调用 `sendfile()` 传输的数据最大不能超过设定的值，如果值为 0，则表示不受限制，默认为0
+7. keepalive_timeout: 连接超时时间，默认为75s，可以存在 `http块`、`server块`、`location块`
+8. keepalive_requests: 单连接请求次数上限
+9. upstream: 如果要使用 Nginx 的负载均衡，则把后端服务器地址列表放在这里，Nginx自带3种算法
+10. error_page: 错误页地址
+
+### server块
+
+配置虚拟主机的相关参数，一个 `http块` 中可以有多个 `server块`
+
+```nginx
+server {
+    listen      8080;
+    server_name 127.0.0.1;
+
+    location / {
+        root    /usr/share/nginx/html;
+        index   index.html index.htm;
+        proxy_pass  https://www.baidu.com;
+        deny    127.0.0.1;
+        allow   127.0.0.1;
+    }
+}
+```
+
+1. listen: 定义 `server` 响应的ip和端口
