@@ -117,6 +117,7 @@ server {
 
     location / {
         root    /usr/share/nginx/html;
+        try_files $url /index.html
         index   index.html index.htm;
         proxy_pass  https://www.baidu.com;
         deny    127.0.0.1;
@@ -129,18 +130,20 @@ server {
 2. server_name: 定义请求头中 `Host` 字段的匹配规则
 3. location: 定义请求URL中 `path` 的匹配规则
 4. root: 根目录
-5. index: 设置默认页
-6. proxy_pass: 设置需要代理的服务器地址
-7. deny: 设置拒绝IP
-8. allow: 设置允许IP
+5. try_files: 检查请求的 `$url` 中是否含有文件，如果没有重定向到 `/index.html`
+6. index: 设置默认页
+7. proxy_pass: 设置需要代理的服务器地址
+8. deny: 设置拒绝IP
+9. allow: 设置允许IP
 
 ### 常用 Nginx 变量
 
 1. `$remote_addr && $http_x_forwarded_for`: 记录客户端的IP地址
 2. `$remote_user`: 记录客户端用户名称
 3. `$time_local`: 记录访问时间和时区
-4. `$request`: 记录请求的 URL 和 http 协议
-5. `$status`: 记录请求状态
-6. `$body_bytes_sent`: 记录发生给客户端文件主体内容大小
-7. `$http_referer`: 记录从哪一个连接访问来的
-8. `$http_user_agent`: 记录客户端浏览器的相关信息
+4. `$url`: 记录了请求的 URL
+5. `$request`: 记录请求的 URL 和 http 协议
+6. `$status`: 记录请求状态
+7. `$body_bytes_sent`: 记录发生给客户端文件主体内容大小
+8. `$http_referer`: 记录从哪一个连接访问来的
+9. `$http_user_agent`: 记录客户端浏览器的相关信息
