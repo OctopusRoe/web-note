@@ -125,4 +125,22 @@ server {
 }
 ```
 
-1. listen: 定义 `server` 响应的ip和端口
+1. listen: 定义 `server` 响应的ip和端口，如果有多个 `server`，可以在其中一个listen 参数后设置 `default_server` 来设置默认 `server`
+2. server_name: 定义请求头中 `Host` 字段的匹配规则
+3. location: 定义请求URL中 `path` 的匹配规则
+4. root: 根目录
+5. index: 设置默认页
+6. proxy_pass: 设置需要代理的服务器地址
+7. deny: 设置拒绝IP
+8. allow: 设置允许IP
+
+### 常用 Nginx 变量
+
+1. `$remote_addr && $http_x_forwarded_for`: 记录客户端的IP地址
+2. `$remote_user`: 记录客户端用户名称
+3. `$time_local`: 记录访问时间和时区
+4. `$request`: 记录请求的 URL 和 http 协议
+5. `$status`: 记录请求状态
+6. `$body_bytes_sent`: 记录发生给客户端文件主体内容大小
+7. `$http_referer`: 记录从哪一个连接访问来的
+8. `$http_user_agent`: 记录客户端浏览器的相关信息
