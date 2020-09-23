@@ -117,7 +117,7 @@ server {
 
     location / {
         root    /usr/share/nginx/html;
-        try_files $url /index.html
+        try_files $uri /index.html
         index   index.html index.htm;
         proxy_pass  https://www.baidu.com;
         deny    127.0.0.1;
@@ -141,7 +141,7 @@ server {
 1. `$remote_addr && $http_x_forwarded_for`: 记录客户端的IP地址
 2. `$remote_user`: 记录客户端用户名称
 3. `$time_local`: 记录访问时间和时区
-4. `$url`: 记录了请求的 URL
+4. `$uri`: 记录了请求的 URL
 5. `$request`: 记录请求的 URL 和 http 协议
 6. `$status`: 记录请求状态
 7. `$body_bytes_sent`: 记录发生给客户端文件主体内容大小
