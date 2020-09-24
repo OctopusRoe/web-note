@@ -147,3 +147,39 @@ server {
 7. `$body_bytes_sent`: 记录发生给客户端文件主体内容大小
 8. `$http_referer`: 记录从哪一个连接访问来的
 9. `$http_user_agent`: 记录客户端浏览器的相关信息
+
+### 支持 ssl 证书的 server块
+
+```nginx
+server {
+    listen    80;
+    listen    443 ssl;
+    server_name  localhost;
+
+    # 增加ssl
+    ssl on;        #如果强制HTTPs访问，这行要打开
+    ssl_certificate /ssl/server.crt;
+    ssl_certificate_key /ssl/server.key;
+
+    ssl_session_cache    shared:SSL:1m;
+    ssl_session_timeout  5m;
+
+     # 指定密码为openssl支持的格式
+     ssl_protocols  SSLv2 SSLv3 TLSv1.2;
+
+     ssl_ciphers  HIGH:!aNULL:!MD5;
+     ssl_prefer_server_ciphers  on;
+
+     # 定义首页索引目录和名称
+     location / {
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+     }
+
+    #重定向错误页面到 /50x.html
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root   /usr/share/nginx/html;
+    }
+}
+```
