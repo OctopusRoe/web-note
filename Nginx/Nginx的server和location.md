@@ -32,4 +32,74 @@ listen 字段定义 `server` 响应的ip和端口
 #### server_name 匹配规则
 
 1. Nginx 会尝试寻找一个 `server_name` 和 `Host` 完全匹配的 server块，如果找到多个精确匹配，则会使用第一个匹配的 server块
-2. 
+
+```nginx
+server {
+    listen  80;
+    server_name www.baidu.com;
+}
+```
+
+2. 如果没有找到完全匹配的 server块，Nginx 则会尝试寻找 server块中，`server_name` 的值带有 `*` 号开头的，如果找到多个，则选择最长匹配的 server块
+
+```nginx
+server {
+    listen  80;
+    server_name *.baidu.com;
+}
+```
+
+3. 如果没有找到使用 `*` 号开头的 server块，Nginx 则会寻找以 `*` 号结尾的 server块，如果找到多个，则选择最长匹配的 server块
+
+```nginx
+server {
+    listen  80;
+    server_name www.*;
+}
+```
+
+4. 如果没有找到使用 `*` 号开头或结尾的 server块，Nginx 则会寻找使用正则表达式(以 `~` 号开头)命名的 server块，如果找到多个，则会使用第一个匹配的
+
+```nginx
+server {
+    listen  80;
+    server_name ~^(?.+)\.baidu\.com
+}
+```
+
+5. 可以在 server块中的 listen 字段的值后添加 `default_server` 参数，在 `server_name` 没有匹配到任何一个 server块时，返回一个默认的 server块，这样可以返回错误到客户端
+
+```nginx
+server {
+    listen 80 default_server;
+    server_name _;  return 444;
+}
+```
+
+通过返回 Nginx 的非标准错误码 444，来断开与客户端的连接
+
+### location 块
+
+对请求的 URL 中的 `path` 进行匹配，判断返回哪一个 location块
+
+#### 修饰符
+
+修饰符 | 说明 |
+-|-|
+~* | 使用正则表达式进行匹配，不区分大小写 |
+~ | 使用正则表达式进行匹配，区分大小写 |
+^~ | 根据前缀匹配，如果匹配到，则终止后续匹配 |
+= | 如果请求的 `path` 与定义的 值完全一样，则使用该 location块
+无 | 无修饰符，根据前缀匹配 |
+
+#### 匹配规则
+
+1. Nginx 先检查无修饰符的 location
+2. 如果有 `=` 修饰符，则检查 location块是否与请求的 `path` 完全相等，如果相等，则使用该 location块
+3. 如果没有找到带有=修饰符的location块匹配,则会继续计算非精确前缀,根据给定的URI找到最长匹配前缀,然后进行如下处理:
+    
+    > 1. 如果最长的匹配 locationk块 带有 `^~` 修饰符，Nginx 立刻使用该 location块 响应请求
+    > 2. 如果最长的匹配 location块 不带有 `^~` 修饰符，Nginx 会将该匹配暂时存起来,然后继续后续匹配
+
+4. 在确定并储存最长匹配的前缀 location块 后，Nginx 继续检查正则表达式匹配 locationK块，如果存在正则表达式满足要求的匹配,则会选择与请求的 URI 匹配的第一个正则表达式的 location块 来相应请求
+5. 如果没有找到与请求的 URI 匹配的正则表达式 location块，则使用之前存储的最长前缀 location块 响应请求
